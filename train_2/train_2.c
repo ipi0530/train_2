@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+bool flag_game = true;
 int w =0, p = 0, turn = 1, game = 1;
 int c = 6, ca = 1, cr = 0, cd = 0;
 int z = 3, zat = 0, zd = 0;
-int m = 2, ma = 1, md = 0, mac = 0,ms = 0, msp = 0, mr = 0;
-
+int m = 2, ma = 1, ma1 = 0, md = 0, mac = 0,ms = 0, msp = 0, mr = 0;
+//ms = chose, msa = present 
+// game, 1 = true, 2 = z attack c, 3 == c win, 4 == z attack m
 void train_print(int, int, int, int);
 
 //move
@@ -15,21 +19,23 @@ void zombie_move(int, int, int, int, int, int, int);
 void madongseok_move(int, int, int, int);
 
 //doing
-void citizen_doing(int, int, int);
+void citizen_doing(int, int, int, int);
 
-void zombie_doing(int, int, int, int, int, int, int);
+void zombie_doing(int, int, int, int, int, int, int, int, int);
 
-void madongseok_doing(int, int, int, int, int, int);
+void madongseok_doing(int, int, int, int, int, int, int, int);
 
 //print_move
 void citizen_print_move(int, int, int, int);
 
-void madongseok_print_move(int, int, int, int);
+void madongseok_print_move(int, int, int, int, int, int);
 
 void zombie_print_move(int, int, int);
 
 //print_doing
-void madongseok_print_move(int, int, int, int);
+void citizen_print_doing(int);
+void zombie_print_doing(int, int, int, int);
+void madongseok_print_move(int, int, int, int, int, int);
 
 //train
 void train_print(int w, int c, int z, int m) {
@@ -134,7 +140,7 @@ void madongseok_move(int m, int ma, int md, int z) {
 		}
 		else { //left
 			m += 1;
-			if (md < 5) {
+			if (ma < 5) {
 				ma += 1;
 			}	
 		}
@@ -142,13 +148,14 @@ void madongseok_move(int m, int ma, int md, int z) {
 }
 
 //doing
-void citizen_doing(int c, int w, int game) {
+void citizen_doing(int c, int w, int game, int flag_game) {
 	if (w - c == 2) {
-		game = 0;
+		flag_game = false;
+		game = 3;
 	}
 }
 
-void zombie_doing(int c, int ca, int m, int ma, int msp, int z, int game) {
+void zombie_doing(int c, int ca, int m, int ma, int msp, int z, int zat, int game, int flag_game) {
 	if (c - z != 1 && z - m != 1) { //z not with c, m
 		zat = 0;
 	}
@@ -167,17 +174,20 @@ void zombie_doing(int c, int ca, int m, int ma, int msp, int z, int game) {
 		}
 	}
 	if (zat = 1) { // z doing to c
-		game = 0;
+		flag_game = false;
+		game = 2;
 	}
 	else if (zat = 2) { //z doing to m
 		msp -= 1;
 		if (msp == 0) {
-			game = 0;
+			zat = 3;
+			flag_game = false;
+			game = 4;
 		}
 	}
 }
 
-void madongseok_doing(int m, int ma, int msp, int mac, int mr, int z) {
+void madongseok_doing(int m, int ma, int ma1, int ms, int msp, int mac, int mr, int z) {
 	if (z - m == 1) { //z with m
 		printf("madongseok action (0.rest, 1.provoke, 2.pull)>> ");
 		scanf_s("%d", &mac);
@@ -195,6 +205,7 @@ void madongseok_doing(int m, int ma, int msp, int mac, int mr, int z) {
 		}
 	}
 	else if (mac == 1) { //m provo
+		ma1 = ma;
 		ma = 5;
 	}
 	else { //m pull
@@ -237,27 +248,57 @@ void zombie_print_move(int z, int zd, int w) {
 	}
 }
 
-void madongseok_print_move(int m, int ma, int msp, int md) {
+void madongseok_print_move(int m, int ma, int msp, int md, int w) {
 	if (md == 0) { //stay
-		printf("madongseok: stay %d (aggro %d -> %d, stamina: %d)\n", w -m, ma + 1, ma, msp);
+		printf("madongseok: stay %d (aggro %d -> %d, stamina: %d)\n", w - m, ma + 1, ma, msp);
 	}
-	if (md == 0) { //move
+	else if (md == 1) { //move
 		printf("madongseok: %d -> %d (aggro %d -> %d, stamina: %d)\n",w - (m - 1) ,w - m, ma + 1, ma, msp);
 	}
 }
 
 //print_doing
-void madongseok_print_move(int ca, int m, int ma, int msp, int w) {
+void citizen_print_doing(int game) {
+	if (game == 1) {
+		printf("citizen does nothing.\n");
+	}
+}
+void zombie_print_doing(int ca, int ma, int msp, int zat) {
+	if (zat == 0) {
+		printf("zombie attacked nothing.\n");
+	}
+	else if (zat == 2) {
+		printf("zombie attacked madongseok (aggro: %d vs. %d, madongseok stamina: %d -> %d)\n", ca, ma, msp + 1, msp);
+	}
+}
+void madongseok_print_doiing(int ca, int m, int ma, int ma1, int msp, int w) {
 	if (mac == 0) { //rest
 		printf("madongseok rests...\n");
 		printf("madongseok: %d (aggro: %d -> %d, stamina:%d -> %d)\n", w - m, ma + 1, ma, msp - 1, msp);
 	}
-	if (mac == 1) { //provo
+	else if (mac == 1) { //provo
 		printf("madongseok provoked zombie...\n");
-		printf("madongseok: %d (aggro: %d -> %d, stamina: %d)\n");
+		printf("madongseok: %d (aggro: %d -> %d, stamina: %d)\n", w - m, ma1, ma, msp);
 	}
+	else if (mac == 2) {
+		printf("madongseok pulled zombie... Next turn, it can't move\n");
+		printf("madongseok: %d (aggro: %d -> %d, stamina:%d -> %d)\n", w - m, ma - 2, ma, msp + 1, msp);
+	}
+
 }
 
+//print game over
+void game_over(int game) {
+	if (game == 2) {
+		printf("GAME OVER! citizen dead...\n");
+	}
+	else if (game == 3) {
+		printf("YOU WIN! citizen escape the train!\n");
+	}
+	else if (game == 4) {
+		printf("GAME OVER! madongseok dead...\n");
+	}
+}
 int main(void) {
 	printf("train length(15 ~ 50)>> ");
 	scanf_s("%d", &w);
@@ -267,12 +308,28 @@ int main(void) {
 	scanf_s("%d", &p);
 
 	//befor start
-	
-	while (1) {
+	void train_print(w, c, z, m);
+	while (flag_game) {
 		printf("\n");
-		
-
-
+		void train_print(w, c, z, m);
+		//move
+		void  citizen_move(c, cr, ca, cd, p, w, game);
+		void zombie_move(c, ca, m, ma, mac, zd, turn);
+		void citizen_print_move(c, ca, cd, w);
+		void zombie_print_move(z, zd, w);
+		void madongseok_move(m, ma, md, z);
+		void train_print(w, c, z, m);
+		void madongseok_print_move(m, ma, msp, md, w);
+		//doing
+		void citizen_doing(c, w, game, flag_game);
+		void citizen_print_doing(game);
+		void zombie_doing(c, ca, m, ma, msp, z, zat, game, flag_game);
+		void zombie_print_doing(ca, ma, msp, zat);
+		void madongseok_doing(m, ma, ma1, ms, msp, mac, mr, z);
+		void madongseok_print_doing(ca, m, ma, ma1, msp, w);
+		//game
+		void game_over(game);
+		turn += 1;
 	}
-
+	return 0;
 }

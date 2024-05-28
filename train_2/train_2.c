@@ -271,7 +271,7 @@ void zombie_print_doing(int ca, int ma, int msp, int zat) {
 		printf("zombie attacked madongseok (aggro: %d vs. %d, madongseok stamina: %d -> %d)\n", ca, ma, msp + 1, msp);
 	}
 }
-void madongseok_print_doiing(int ca, int m, int ma, int ma1, int msp, int w) {
+void madongseok_print_doing(int ca, int m, int ma, int ma1, int msp, int w) {
 	if (mac == 0) { //rest
 		printf("madongseok rests...\n");
 		printf("madongseok: %d (aggro: %d -> %d, stamina:%d -> %d)\n", w - m, ma + 1, ma, msp - 1, msp);

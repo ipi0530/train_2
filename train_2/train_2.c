@@ -28,14 +28,14 @@ void madongseok_doing(int, int, int, int, int, int, int, int);
 //print_move
 void citizen_print_move(int, int, int, int);
 
-void madongseok_print_move(int, int, int, int, int, int);
+void madongseok_print_move(int, int, int, int, int);
 
 void zombie_print_move(int, int, int);
 
 //print_doing
 void citizen_print_doing(int);
 void zombie_print_doing(int, int, int, int);
-void madongseok_print_move(int, int, int, int, int, int);
+void madongseok_print_doing(int, int, int, int, int, int);
 
 //train
 void train_print(int w, int c, int z, int m) {

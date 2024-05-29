@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+
+//2 - 1 ~ 2 - 4 end
+// 3 not end
+
+
 //train
 void train_print(int, int, int, int);
 void train_print(int w, int c, int z, int m) {
@@ -36,10 +41,12 @@ void train_print(int w, int c, int z, int m) {
 }
 
 //citizen
+//2 - 3
 int c_move(int, int, int, int);
 int c_move_r(int, int);
 int c_move_a(int, int);
 void c_move_print(int, int, int, int);
+// 2 - 4
 int c_doing(int, int, int);
 void c_doing_print(int);
 
@@ -96,9 +103,11 @@ void c_doing_print(int game) {
 }
 
 //zombie
+// 2 - 3
 int z_move(int, int, int, int, int, int, int);
 int z_move_r(int, int);
 void z_move_print(int, int, int);
+// 2 - 4
 int z_doing(int, int, int, int, int, int);
 int z_doing_c(int, int);
 int z_doing_m1(int, int);
@@ -204,10 +213,12 @@ void z_doing_print(int ca, int ma, int ms, int zd) {
 }
 
 //madongseok
+// 2 - 3
 int m_move(int, int, int);
 int m_move_r(int, int);
 int m_move_a(int, int);
 void m_move_print(int, int, int, int, int);
+// 2 - 4
 int m_doing(int, int, int, int, int);
 int m_doing_a(int, int);
 int m_doing_s(int, int);
@@ -364,7 +375,7 @@ int main(void) {
 	while (flag) {
 
 		printf("\n");
-		//move
+		//move 2- 3
 		//c
 		cm = c_move(c, cm, cp, p);
 		c = c_move_r(cm, c);
@@ -391,7 +402,7 @@ int main(void) {
 		mm = 5;
 		printf("\n");
 
-		//doing
+		//doing 2 - 4
 		// c
 		game = c_doing(c, w, game);
 		//z

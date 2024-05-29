@@ -410,18 +410,18 @@ int main(void) {
 		game = z_doing_c(zd, game);
 		ms = z_doing_m1(ms, zd);
 		game = z_doing_m2(ms, zd, game);
-		// now
-		c_doing_print(game);
-		z_doing_print(ca, ma, ms, zd);
 		zd = 0;
 		//m
-		md = m_doing(m, z, md, mr, p);
-		bin = ma;
-		ma = m_doing_a(md, ma);
-		ms = m_doing_s(md, ms);
-		m_doing_print(m, md, ma, ms, bin);
-		md = 5;
-		
+		if (game == 0) {
+			md = m_doing(m, z, md, mr, p);
+			bin = ma;
+			ma = m_doing_a(md, ma);
+			ms = m_doing_s(md, ms);
+			//now
+			c_doing_print(game);
+			z_doing_print(ca, ma, ms, zd);
+			m_doing_print(m, md, ma, ms, bin);
+		}
 		//game
 		flag = game_over(game, flag);
 		//turn

@@ -412,16 +412,17 @@ int main(void) {
 		game = z_doing_m2(ms, zd, game);
 		zd = 0;
 		//m
-		if (game == 0) {
-			md = m_doing(m, z, md, mr, p);
-			bin = ma;
-			ma = m_doing_a(md, ma);
-			ms = m_doing_s(md, ms);
-			//now
-			c_doing_print(game);
-			z_doing_print(ca, ma, ms, zd);
-			m_doing_print(m, md, ma, ms, bin);
-		}
+		
+		//now
+		c_doing_print(game);
+		z_doing_print(ca, ma, ms, zd);
+		//m
+		md = m_doing(m, z, md, mr, p);
+		bin = ma;
+		ma = m_doing_a(md, ma);
+		ms = m_doing_s(md, ms);
+		m_doing_print(m, md, ma, ms, bin);
+		
 		//game
 		flag = game_over(game, flag);
 		//turn
